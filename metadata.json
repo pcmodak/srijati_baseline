@@ -1,0 +1,6 @@
+{
+  "name": "Srijati Baseline",
+  "description": "Baseline Livelihood Survey MIS application for field enumerators with multilingual support and offline data sync",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

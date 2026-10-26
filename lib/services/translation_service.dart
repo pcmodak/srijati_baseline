@@ -1,7 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-// Port 3003 ebong server IP set korun
-const String apiBaseUrl = 'http://187.127.141.232:3003/api';
+// Port 3003 API endpoint with Web proxy fallback
+String get apiBaseUrl {
+  if (kIsWeb) {
+    return '/api';
+  }
+  return 'http://187.127.141.232:3003/api';
+}
 
 class TranslationProvider extends InheritedWidget {
   final String currentLocale;

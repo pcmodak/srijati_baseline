@@ -102,7 +102,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 48,
                 child: ElevatedButton(
                   onPressed: _isLoading ? null : _login,
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.teal),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                   child: _isLoading
                       ? const CircularProgressIndicator(color: Colors.white)
                       : Text(
@@ -110,6 +115,59 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: const TextStyle(color: Colors.white, fontSize: 16),
                   ),
                 ),
+              ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: OutlinedButton.icon(
+                  onPressed: () async {
+                    final prefs = await SharedPreferences.getInstance();
+                    await prefs.setInt('user_id', 1);
+                    await prefs.setString('user_name', 'Demo Enumerator');
+                    await prefs.setString('user_level', 'enumerator');
+                    if (!context.mounted) return;
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const EnumeratorHomeScreen(userData: {
+                          'id': 1,
+                          'name': 'Demo Enumerator',
+                          'user_level': 'enumerator',
+                        }),
+                      ),
+                    );
+                  },
+                  icon: const Icon(Icons.offline_pin_outlined, color: Colors.teal),
+                  label: const Text(
+                    'Offline / Demo Mode (অফলাইন ডেমো)',
+                    style: TextStyle(color: Colors.teal, fontSize: 14),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.teal),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text('Language / ভাষা: ', style: TextStyle(fontSize: 13, color: Colors.grey)),
+                  ActionChip(
+                    label: const Text('বাংলা', style: TextStyle(fontSize: 12)),
+                    backgroundColor: tProvider.currentLocale == 'bn' ? Colors.teal.shade100 : null,
+                    onPressed: () => tProvider.onLocaleChange('bn'),
+                  ),
+                  const SizedBox(width: 8),
+                  ActionChip(
+                    label: const Text('English', style: TextStyle(fontSize: 12)),
+                    backgroundColor: tProvider.currentLocale == 'en' ? Colors.teal.shade100 : null,
+                    onPressed: () => tProvider.onLocaleChange('en'),
+                  ),
+                ],
               ),
             ],
           ),
